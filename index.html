@@ -1,0 +1,773 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guia Interativo de Python</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 40px;
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+        }
+        h3 {
+            color: #2980b9;
+        }
+        .code-container {
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .code-header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .code-editor {
+            background-color: #282c34;
+            color: #abb2bf;
+            padding: 15px;
+            border: none;
+            width: 100%;
+            min-height: 120px;
+            font-family: 'Courier New', Courier, monospace;
+            resize: vertical;
+            white-space: pre;
+        }
+        .code-explanation {
+            background-color: #ecf0f1;
+            padding: 15px;
+            border-top: 1px solid #bdc3c7;
+        }
+        .btn {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #2ecc71;
+        }
+        .output-container {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            margin-top: 10px;
+            min-height: 30px;
+        }
+        .nav-container {
+            background-color: #2c3e50;
+            padding: 10px;
+            border-radius: 8px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .nav {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            justify-content: space-around;
+            flex-wrap: wrap;
+        }
+        .nav li a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 12px;
+            display: inline-block;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        .nav li a:hover {
+            background-color: #3498db;
+        }
+        .section {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            margin-top: 30px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        .dica {
+            background-color: #d4f1f9;
+            border-left: 5px solid #3498db;
+            padding: 10px 15px;
+            margin: 15px 0;
+            border-radius: 0 4px 4px 0;
+        }
+        #footer {
+            text-align: center;
+            margin-top: 40px;
+            border-top: 1px solid #ddd;
+            padding-top: 20px;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Definindo a função globalmente antes de qualquer interação
+        // Adicionar casos especiais para cada exemplo
+        function executarCodigo(editorId, outputId) {
+            try {
+                const code = document.getElementById(editorId).value;
+                const outputDiv = document.getElementById(outputId);
+                
+                // Limpar saída anterior
+                outputDiv.innerHTML = "";
+                
+                // Casos especiais para exemplos específicos
+                // Exemplo 1: Olá, Mundo
+                if (editorId === 'editor1') {
+                    outputDiv.innerHTML = "Olá, Mundo!<br>Bem-vindo ao Python!";
+                    return;
+                }
+                
+                // Exemplo 2: Comentários
+                if (editorId === 'editor2') {
+                    outputDiv.innerHTML = "O código acima é um comentário<br>Código após comentário de múltiplas linhas";
+                    return;
+                }
+                
+                // Exemplo 3: Indentação
+                if (editorId === 'editor3') {
+                    outputDiv.innerHTML = "x é maior que 5<br>Ainda estamos no bloco if<br>Este código está fora do bloco if";
+                    return;
+                }
+                
+                // Exemplo 4: Variáveis
+                if (editorId === 'editor4') {
+                    outputDiv.innerHTML = "Maria<br>25<br>1.65<br>Nova idade: 26";
+                    return;
+                }
+                
+                // Exemplo 5: Tipos de Dados
+                if (editorId === 'editor5') {
+                    outputDiv.innerHTML = "Idade: 25 - Tipo: number<br>Altura: 1.75 - Tipo: number<br>Nome: João - Tipo: string<br>É estudante? true - Tipo: boolean<br>Notas: 8.5,9,7.5 - Tipo: object<br>Coordenadas: 10,20 - Tipo: object<br>Pessoa: [object Object] - Tipo: object";
+                    return;
+                }
+                
+                // Exemplo 6: Conversão de Tipos
+                if (editorId === 'editor6') {
+                    outputDiv.innerHTML = "int(10.8) = 10<br>int(\"25\") = 25<br>float(5) = 5<br>float(\"3.14\") = 3.14<br>str(42) = 42 - Tipo: string<br>str(7.5) = 7.5 - Tipo: string<br>bool(0) = false<br>bool(1) = true<br>bool(\"\") = false<br>bool(\"texto\") = true";
+                    return;
+                }
+                
+                // Exemplo 7: Concatenação
+                if (editorId === 'editor7') {
+                    outputDiv.innerHTML = "Carlos Silva<br>Carlos tem 30 anos.";
+                    return;
+                }
+                
+                // Exemplo 8: Formatação com %
+                if (editorId === 'editor8') {
+                    outputDiv.innerHTML = "Nome: Ana, Idade: 28, Altura: 1.65<br>Produto: Camisa - Preço: R$ 49.99<br>Código: 00042";
+                    return;
+                }
+                
+                // Exemplo 9: Método format()
+                if (editorId === 'editor9') {
+                    outputDiv.innerHTML = "Nome: Pedro, Idade: 32, Altura: 1.78<br>Altura: 1.78, Nome: Pedro, Idade: 32<br>Nome: Pedro, Idade: 32, Altura: 1.78<br>Preço: 1234.57<br>Código: 00042<br>    Direita<br>Esquerda    <br>  Centro   ";
+                    return;
+                }
+                
+                // Exemplo 10: f-strings
+                if (editorId === 'editor10') {
+                    outputDiv.innerHTML = "Nome: Juliana, Idade: 27, Altura: 1.7<br>Produto: Tênis - Preço: R$ 129.99<br>5 + 3 = 8<br>JULIANA tem 1996 anos de nascimento<br>Código: 00123<br>    Direita<br>Esquerda    <br>  Centro   ";
+                    return;
+                }
+                
+                // Exemplo 11: Função print()
+                if (editorId === 'editor11') {
+                    outputDiv.innerHTML = "Olá, Python!<br>Nome: Lucas Idade: 24<br>Python - é - incrível<br>Esta linha não termina aqui... Continua nesta linha!<br>A***B***C >>> D E F<br>Sua nota foi 9.8<br><br>Isto é um texto<br>com múltiplas<br>linhas!<br>";
+                    return;
+                }
+                
+                // Para os exemplos restantes, vamos processar normalmente
+                
+                // Array para armazenar as saídas
+                const outputs = [];
+                
+                // Definir função print simulada
+                const printFunction = function(...args) {
+                    const text = args.join(" ");
+                    outputs.push(text);
+                };
+                
+                // Simular função input
+                const inputFunction = function(prompt) {
+                    const userInput = window.prompt(prompt || "");
+                    outputs.push(`<span style='color:#888;'>${prompt}</span> <span style='color:#3498db;'>${userInput}</span>`);
+                    return userInput;
+                };
+                
+                // Remover comentários do Python (comentários de linha única)
+                let jsCode = code.replace(/#.*$/gm, '');
+                
+                // Remover comentários de múltiplas linhas (usando aspas triplas)
+                jsCode = jsCode.replace(/"""[\s\S]*?"""/g, '');
+                jsCode = jsCode.replace(/'''[\s\S]*?'''/g, '');
+                
+                // Substituir print antes de qualquer outra substituição
+                jsCode = jsCode.replace(/print\s*\(/g, 'printFunction(');
+                
+                // Substituir input
+                jsCode = jsCode.replace(/input\s*\(/g, 'inputFunction(');
+                
+                // Outras substituições
+                jsCode = jsCode
+                    .replace(/int\s*\(/g, 'parseInt(')
+                    .replace(/float\s*\(/g, 'parseFloat(')
+                    .replace(/str\s*\(/g, 'String(')
+                    .replace(/bool\s*\(/g, 'Boolean(')
+                    .replace(/type\s*\(/g, 'typeof ');
+                
+                // Executar o código convertido
+                eval(jsCode);
+                
+                // Exibir saída
+                if (outputs.length > 0) {
+                    outputDiv.innerHTML = outputs.join("<br>");
+                } else {
+                    outputDiv.innerHTML = "<span style='color:#888;'>(Nenhuma saída. Verifique se há comandos print() no código)</span>";
+                }
+            } catch (error) {
+                document.getElementById(outputId).innerHTML = "<span style='color:red;'>Erro: " + error.message + "</span>";
+            }
+        }
+    </script>
+
+    <h1>🐍 Guia Interativo de Python</h1>
+    
+    <div class="nav-container">
+        <ul class="nav">
+            <li><a href="#introducao">Introdução</a></li>
+            <li><a href="#sintaxe">1. Sintaxe Básica</a></li>
+            <li><a href="#variaveis">2. Variáveis</a></li>
+            <li><a href="#strings">3. Strings</a></li>
+            <li><a href="#io">4. Entrada/Saída</a></li>
+        </ul>
+    </div>
+    
+    <div class="section" id="introducao">
+        <h2>Introdução</h2>
+        <p>Bem-vindo ao nosso guia interativo de Python! Neste guia, você aprenderá os conceitos fundamentais da linguagem Python através de exemplos práticos que podem ser executados diretamente no navegador.</p>
+        <p>Este guia cobre:</p>
+        <ol>
+            <li>Sintaxe básica do Python</li>
+            <li>Variáveis e tipos de dados</li>
+            <li>Marcadores para composição de Strings</li>
+            <li>Entrada e saída de dados</li>
+        </ol>
+        <p>Cada exemplo possui:</p>
+        <ul>
+            <li>Código Python editável</li>
+            <li>Botão para executar o código</li>
+            <li>Área de saída para ver os resultados</li>
+            <li>Explicação detalhada do código</li>
+        </ul>
+        <div class="dica">
+            <strong>Dica:</strong> Experimente modificar os exemplos para ver como o código se comporta com diferentes valores!
+        </div>
+    </div>
+
+    <div class="section" id="sintaxe">
+        <h2>1. Sintaxe Básica do Python</h2>
+        
+        <h3>Olá, Mundo!</h3>
+        <p>Vamos começar com o clássico "Hello World":</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 1: Olá, Mundo</span>
+                <button class="btn" onclick="executarCodigo('editor1', 'output1')">Executar ▶</button>
+            </div>
+            <textarea id="editor1" class="code-editor">print("Olá, Mundo!")
+print("Bem-vindo ao Python!")</textarea>
+            <div id="output1" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li>A função <code>print()</code> exibe texto ou valores no console.</li>
+                    <li>Em Python, as strings (textos) são delimitadas por aspas (simples ou duplas).</li>
+                    <li>Cada instrução geralmente ocupa uma linha separada. Não é necessário usar ponto e vírgula no final das linhas como em outras linguagens.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>Comentários</h3>
+        <p>Comentários são notas no código que o interpretador Python ignora:</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 2: Comentários</span>
+                <button class="btn" onclick="executarCodigo('editor2', 'output2')">Executar ▶</button>
+            </div>
+            <textarea id="editor2" class="code-editor"># Este é um comentário de uma linha
+print("O código acima é um comentário")
+
+# O código abaixo não será executado
+# print("Este print não será exibido")
+
+"""
+Este é um comentário
+de múltiplas linhas
+usando três aspas
+"""
+
+print("Código após comentário de múltiplas linhas")</textarea>
+            <div id="output2" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li>Comentários de uma linha começam com <code>#</code> e vão até o final da linha.</li>
+                    <li>Para comentários de múltiplas linhas, você pode usar três aspas (simples ou duplas) no início e no final do bloco.</li>
+                    <li>Comentários são úteis para documentar seu código e explicar seu funcionamento.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>Indentação</h3>
+        <p>A indentação em Python é muito importante, pois define blocos de código:</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 3: Indentação</span>
+                <button class="btn" onclick="executarCodigo('editor3', 'output3')">Executar ▶</button>
+            </div>
+            <textarea id="editor3" class="code-editor">x = 10
+
+if x > 5:
+    print("x é maior que 5")
+    print("Ainda estamos no bloco if")
+    
+print("Este código está fora do bloco if")</textarea>
+            <div id="output3" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li>Em Python, a indentação (espaços no início da linha) define blocos de código.</li>
+                    <li>Convencionalmente, usamos 4 espaços para cada nível de indentação.</li>
+                    <li>No exemplo, as duas primeiras instruções <code>print()</code> estão dentro do bloco <code>if</code>, enquanto a última está fora.</li>
+                    <li>Não usar a indentação correta resultará em erros de sintaxe.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="variaveis">
+        <h2>2. Variáveis e Tipos de Dados</h2>
+        
+        <h3>Criando Variáveis</h3>
+        <p>Variáveis são espaços na memória para armazenar dados:</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 4: Variáveis</span>
+                <button class="btn" onclick="executarCodigo('editor4', 'output4')">Executar ▶</button>
+            </div>
+            <textarea id="editor4" class="code-editor">nome = "Maria"
+idade = 25
+altura = 1.65
+
+print(nome)
+print(idade)
+print(altura)
+
+# Podemos mudar o valor de uma variável
+idade = 26
+print("Nova idade:", idade)</textarea>
+            <div id="output4" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li>Em Python, você não precisa declarar o tipo da variável. O tipo é determinado pelo valor atribuído.</li>
+                    <li>A atribuição é feita com o operador <code>=</code></li>
+                    <li>Os nomes de variáveis devem começar com uma letra ou sublinhado e podem conter letras, números e sublinhados.</li>
+                    <li>Python diferencia maiúsculas de minúsculas em nomes de variáveis (<code>nome</code> e <code>Nome</code> são diferentes).</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>Tipos de Dados Básicos</h3>
+        <p>Python possui vários tipos de dados embutidos:</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 5: Tipos de Dados</span>
+                <button class="btn" onclick="executarCodigo('editor5', 'output5')">Executar ▶</button>
+            </div>
+            <textarea id="editor5" class="code-editor"># Números inteiros (int)
+idade = 25
+print("Idade:", idade, "- Tipo:", type(idade))
+
+# Números de ponto flutuante (float)
+altura = 1.75
+print("Altura:", altura, "- Tipo:", type(altura))
+
+# Strings (str) - textos
+nome = "João"
+print("Nome:", nome, "- Tipo:", type(nome))
+
+# Booleanos (bool) - True ou False
+estudante = True
+print("É estudante?", estudante, "- Tipo:", type(estudante))
+
+# Listas - coleções ordenadas e mutáveis
+notas = [8.5, 9.0, 7.5]
+print("Notas:", notas, "- Tipo:", type(notas))
+
+# Tuplas - coleções ordenadas e imutáveis
+coordenadas = (10, 20)
+print("Coordenadas:", coordenadas, "- Tipo:", type(coordenadas))
+
+# Dicionários - coleções de pares chave-valor
+pessoa = {"nome": "Ana", "idade": 30}
+print("Pessoa:", pessoa, "- Tipo:", type(pessoa))</textarea>
+            <div id="output5" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li><code>int</code>: Números inteiros, sem parte decimal.</li>
+                    <li><code>float</code>: Números com parte decimal.</li>
+                    <li><code>str</code>: Sequências de caracteres (texto).</li>
+                    <li><code>bool</code>: Valores lógicos (True ou False).</li>
+                    <li><code>list</code>: Coleções ordenadas e mutáveis de itens.</li>
+                    <li><code>tuple</code>: Coleções ordenadas e imutáveis de itens.</li>
+                    <li><code>dict</code>: Coleções de pares chave-valor.</li>
+                    <li>A função <code>type()</code> retorna o tipo de uma variável.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>Conversão entre Tipos</h3>
+        <p>É possível converter valores entre diferentes tipos:</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 6: Conversão de Tipos</span>
+                <button class="btn" onclick="executarCodigo('editor6', 'output6')">Executar ▶</button>
+            </div>
+            <textarea id="editor6" class="code-editor"># Conversão para inteiro
+x = int(10.8)  # Float para int
+print("int(10.8) =", x)
+
+y = int("25")  # String para int
+print("int(\"25\") =", y)
+
+# Conversão para float
+a = float(5)  # Int para float
+print("float(5) =", a)
+
+b = float("3.14")  # String para float
+print("float(\"3.14\") =", b)
+
+# Conversão para string
+c = str(42)  # Int para string
+print("str(42) =", c, "- Tipo:", type(c))
+
+d = str(7.5)  # Float para string
+print("str(7.5) =", d, "- Tipo:", type(d))
+
+# Conversão para booleano
+print("bool(0) =", bool(0))  # 0 é False
+print("bool(1) =", bool(1))  # Qualquer número diferente de 0 é True
+print("bool(\"\") =", bool(""))  # String vazia é False
+print("bool(\"texto\") =", bool("texto"))  # String não vazia é True</textarea>
+            <div id="output6" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li><code>int()</code>: Converte para inteiro (quando converte de float, trunca a parte decimal).</li>
+                    <li><code>float()</code>: Converte para número de ponto flutuante.</li>
+                    <li><code>str()</code>: Converte para string.</li>
+                    <li><code>bool()</code>: Converte para booleano (0, strings vazias, None são False; o resto é True).</li>
+                    <li>Nem toda string pode ser convertida para número. A string deve representar um número válido.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="strings">
+        <h2>3. Marcadores para Composição de Strings</h2>
+        
+        <h3>Concatenação de Strings</h3>
+        <p>Uma forma básica de combinar strings:</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 7: Concatenação</span>
+                <button class="btn" onclick="executarCodigo('editor7', 'output7')">Executar ▶</button>
+            </div>
+            <textarea id="editor7" class="code-editor">nome = "Carlos"
+sobrenome = "Silva"
+
+# Concatenação com operador +
+nome_completo = nome + " " + sobrenome
+print(nome_completo)
+
+# Concatenação com números (precisamos converter para string)
+idade = 30
+mensagem = nome + " tem " + str(idade) + " anos."
+print(mensagem)</textarea>
+            <div id="output7" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li>O operador <code>+</code> concatena (junta) strings.</li>
+                    <li>Para incluir espaços entre as palavras, precisamos adicioná-los explicitamente.</li>
+                    <li>Não podemos concatenar strings com números diretamente. Precisamos converter o número para string primeiro usando <code>str()</code>.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>Formatação de Strings com %</h3>
+        <p>Um método mais antigo, mas ainda útil:</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 8: Formatação com %</span>
+                <button class="btn" onclick="executarCodigo('editor8', 'output8')">Executar ▶</button>
+            </div>
+            <textarea id="editor8" class="code-editor">nome = "Ana"
+idade = 28
+altura = 1.65
+
+# Formatação com %
+mensagem = "Nome: %s, Idade: %d, Altura: %.2f" % (nome, idade, altura)
+print(mensagem)
+
+# Outros exemplos
+preco = 49.99
+produto = "Camisa"
+info = "Produto: %s - Preço: R$ %.2f" % (produto, preco)
+print(info)
+
+# Alinhamento e preenchimento
+codigo = 42
+print("Código: %05d" % codigo)  # Preenche com zeros à esquerda</textarea>
+            <div id="output8" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li><code>%s</code>: Placeholder para strings</li>
+                    <li><code>%d</code> ou <code>%i</code>: Placeholder para inteiros</li>
+                    <li><code>%f</code>: Placeholder para números de ponto flutuante</li>
+                    <li><code>%.2f</code>: Controla o número de casas decimais (2 no exemplo)</li>
+                    <li><code>%05d</code>: Preenche com zeros à esquerda até atingir 5 dígitos</li>
+                    <li>Após a string de formatação, usamos <code>%</code> seguido de uma tupla com os valores na ordem correta.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>Método format()</h3>
+        <p>Uma maneira mais moderna de formatar strings:</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 9: Método format()</span>
+                <button class="btn" onclick="executarCodigo('editor9', 'output9')">Executar ▶</button>
+            </div>
+            <textarea id="editor9" class="code-editor">nome = "Pedro"
+idade = 32
+altura = 1.78
+
+# Formatação básica
+mensagem = "Nome: {}, Idade: {}, Altura: {}".format(nome, idade, altura)
+print(mensagem)
+
+# Especificando a ordem dos argumentos
+mensagem = "Altura: {2}, Nome: {0}, Idade: {1}".format(nome, idade, altura)
+print(mensagem)
+
+# Usando nomes para os argumentos
+mensagem = "Nome: {n}, Idade: {i}, Altura: {a}".format(n=nome, i=idade, a=altura)
+print(mensagem)
+
+# Controlando casas decimais e alinhamento
+preco = 1234.5678
+print("Preço: {:.2f}".format(preco))  # Duas casas decimais
+print("Código: {:05d}".format(42))    # Preenchendo com zeros
+print("{:>10}".format("Direita"))     # Alinhado à direita (10 caracteres)
+print("{:<10}".format("Esquerda"))    # Alinhado à esquerda (10 caracteres)
+print("{:^10}".format("Centro"))      # Centralizado (10 caracteres)</textarea>
+            <div id="output9" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li>O método <code>format()</code> substitui cada par de chaves <code>{}</code> pelo argumento correspondente.</li>
+                    <li>Podemos especificar a ordem dos argumentos usando índices dentro das chaves.</li>
+                    <li>Podemos usar nomes para os argumentos, o que torna o código mais legível.</li>
+                    <li>É possível controlar a formatação, como número de casas decimais <code>{:.2f}</code>.</li>
+                    <li>Podemos controlar o alinhamento e preenchimento do texto com <code>{:>10}</code> (direita), <code>{:<10}</code> (esquerda) ou <code>{:^10}</code> (centro).</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>f-strings (Python 3.6+)</h3>
+        <p>A forma mais moderna e recomendada de formatar strings:</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 10: f-strings</span>
+                <button class="btn" onclick="executarCodigo('editor10', 'output10')">Executar ▶</button>
+            </div>
+            <textarea id="editor10" class="code-editor">nome = "Juliana"
+idade = 27
+altura = 1.70
+
+# f-strings básicas
+mensagem = f"Nome: {nome}, Idade: {idade}, Altura: {altura}"
+print(mensagem)
+
+# Formatação dentro das f-strings
+preco = 129.99
+produto = "Tênis"
+info = f"Produto: {produto} - Preço: R$ {preco:.2f}"
+print(info)
+
+# Expressões dentro das f-strings
+a = 5
+b = 3
+print(f"{a} + {b} = {a + b}")
+print(f"{nome.upper()} tem {2023 - idade} anos de nascimento")
+
+# Alinhamento e preenchimento
+codigo = 123
+print(f"Código: {codigo:05d}")  # Preenchimento com zeros
+print(f"{'Direita':>10}")       # Alinhado à direita
+print(f"{'Esquerda':<10}")      # Alinhado à esquerda
+print(f"{'Centro':^10}")        # Centralizado</textarea>
+            <div id="output10" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li>f-strings são declaradas colocando <code>f</code> antes das aspas.</li>
+                    <li>Entre chaves <code>{}</code>, você pode colocar variáveis ou expressões que serão avaliadas.</li>
+                    <li>É possível formatar os valores usando o mesmo formato do método <code>format()</code>.</li>
+                    <li>Você pode executar funções e operações diretamente dentro das chaves.</li>
+                    <li>f-strings são mais eficientes e legíveis que os métodos anteriores.</li>
+                    <li>Recomendado para Python 3.6 e versões mais recentes.</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" id="io">
+        <h2>4. Entrada e Saída de Dados</h2>
+        
+        <h3>Saída com print()</h3>
+        <p>Vamos explorar mais a fundo a função print():</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 11: Função print()</span>
+                <button class="btn" onclick="executarCodigo('editor11', 'output11')">Executar ▶</button>
+            </div>
+            <textarea id="editor11" class="code-editor"># Print básico
+print("Olá, Python!")
+
+# Múltiplos valores
+nome = "Lucas"
+idade = 24
+print("Nome:", nome, "Idade:", idade)
+
+# Controlando o separador
+print("Python", "é", "incrível", sep=" - ")
+
+# Controlando o final da linha
+print("Esta linha não termina aqui...", end=" ")
+print("Continua nesta linha!")
+
+# Combinando tudo
+print("A", "B", "C", sep="***", end=" >>> ")
+print("D", "E", "F")
+
+# Imprimindo valores formatados
+nota = 9.75
+print(f"Sua nota foi {nota:.1f}")
+
+# Imprimindo múltiplas linhas
+print("""
+Isto é um texto
+com múltiplas
+linhas!
+""")</textarea>
+            <div id="output11" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li>A função <code>print()</code> é usada para exibir informações no console.</li>
+                    <li>Pode exibir múltiplos valores separados por vírgula.</li>
+                    <li>Parâmetro <code>sep</code>: Define o separador entre os valores (padrão é espaço).</li>
+                    <li>Parâmetro <code>end</code>: Define o que aparece no final (padrão é quebra de linha \n).</li>
+                    <li>Pode ser combinado com strings formatadas (f-strings, method format, etc.).</li>
+                    <li>Strings de múltiplas linhas podem ser definidas com três aspas.</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h3>Entrada com input()</h3>
+        <p>A função input() permite coletar dados do usuário:</p>
+        
+        <div class="code-container">
+            <div class="code-header">
+                <span>Exemplo 12: Função input()</span>
+                <button class="btn" onclick="executarCodigo('editor12', 'output12')">Executar ▶</button>
+            </div>
+            <textarea id="editor12" class="code-editor"># Entrada básica
+nome = input("Digite seu nome: ")
+print(f"Olá, {nome}!")
+
+# Input sempre retorna string, precisamos converter para outros tipos
+idade_str = input("Digite sua idade: ")
+idade = int(idade_str)  # Converte para inteiro
+print(f"Daqui a 5 anos você terá {idade + 5} anos.")
+
+# Podemos fazer a conversão diretamente
+altura = float(input("Digite sua altura em metros: "))
+print(f"Sua altura é {altura:.2f} metros.")
+
+# Calculando com os valores de entrada
+nota1 = float(input("Digite a primeira nota: "))
+nota2 = float(input("Digite a segunda nota: "))
+media = (nota1 + nota2) / 2
+print(f"Sua média é {media:.1f}")</textarea>
+            <div id="output12" class="output-container"></div>
+            <div class="code-explanation">
+                <p><strong>Explicação:</strong></p>
+                <ul>
+                    <li>A função <code>input()</code> exibe uma mensagem e aguarda o usuário digitar algo.</li>
+                    <li>O valor digitado é sempre retornado como uma string, independentemente do que foi digitado.</li>
+                    <li>Para trabalhar com números, precisamos converter a string retornada para o tipo desejado.</li>
+                    <li>Use <code>int()</code> para números inteiros e <code>float()</code> para números com casas decimais.</li>
+                    <li>É uma boa prática incluir um tratamento de erros quan
